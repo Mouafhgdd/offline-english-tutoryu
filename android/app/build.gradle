@@ -1,0 +1,58 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace "com.example.offline_english_tutor"
+    compileSdk 34
+    ndkVersion "26.1.10909125" // مطلوب لتصريف كود C++ الخاص بـ llama.cpp
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    defaultConfig {
+        applicationId "com.example.offline_english_tutor"
+        minSdk 24 // الحد الأدنى المطلوب لمكتبتي flutter_llama و Google ML Kit
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+
+        ndk {
+            // بناء مكتبات C++ لمعالجات الهواتف الحديثة 64-bit لتقليل حجم الـ APK وتسريع الأداء
+            abiFilters "arm64-v8a", "x86_64"
+        }
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++17 -O3 -DNDEBUG"
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    // حزمة Google ML Kit المدمجة لقراءة النصوص اللاتينية بدون إنترنت (Bundled On-Device Latin OCR)
+    implementation 'com.google.mlkit:text-recognition:16.0.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+}

@@ -1,0 +1,39 @@
+name: offline_english_tutor
+description: "تطبيق معلم الإنجليزية الذكي (Offline AI) لحل التمارين متعددة الصور بدون إنترنت عبر OCR + Local GGUF LLM."
+publish_to: 'none'
+version: 1.1.0+2
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 1. التقاط صور متعددة وقصها (Multi-Image Picker, Camera & Image Cropping)
+  # التوثيق: https://pub.dev/packages/image_picker & https://pub.dev/packages/image_cropper
+  image_picker: ^1.1.2
+  image_cropper: ^8.0.2
+
+  # 2. استخراج النص الإنجليزي محلياً بدون إنترنت (On-Device Latin OCR)
+  # التوثيق: https://pub.dev/packages/google_mlkit_text_recognition
+  google_mlkit_text_recognition: ^0.13.0
+
+  # 3. تشغيل نماذج GGUF محلياً عبر Llama.cpp (Isolate + Streaming + GPU Offload)
+  # التوثيق: https://pub.dev/packages/llama_cpp_dart & https://pub.dev/packages/flutter_llama
+  llama_cpp_dart: ^0.2.2
+  flutter_llama: ^1.2.1
+
+  # 4. إدارة المسارات وتحميل ملفات النماذج مع دعم استئناف التحميل (Resumable Download)
+  # التوثيق: https://pub.dev/packages/path_provider & https://pub.dev/packages/dio
+  path_provider: ^2.1.4
+  dio: ^5.7.0
+  path: ^1.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
